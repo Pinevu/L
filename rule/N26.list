@@ -1,0 +1,15 @@
+# Myfin
+DOMAIN,myfin.bg
+DOMAIN,myfin.eu
+DOMAIN,myfin.com
+# N26
+DOMAIN,api.usercentrics.eu
+DOMAIN-SUFFIX,app.adjust.com
+DOMAIN-SUFFIX,auth0.com
+DOMAIN-SUFFIX,cdn.number26.de
+DOMAIN-SUFFIX,n26.com
+DOMAIN-SUFFIX,number26.de
+DOMAIN-SUFFIX,pushwoosh.com
+DOMAIN-SUFFIX,segment.io
+DOMAIN-SUFFIX,static.n26.io
+DOMAIN-SUFFIX,tech26.de
