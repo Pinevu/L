@@ -1,11 +1,11 @@
 #Bybiteu
-DOMAIN,bybit.eu
+DOMAIN-SUFFIX,bybit.eu
 # Myfin
-DOMAIN,myfin.bg
-DOMAIN,myfin.eu
-DOMAIN,myfin.com
+DOMAIN-SUFFIX,myfin.bg
+DOMAIN-SUFFIX,myfin.eu
+DOMAIN-SUFFIX,myfin.com
 # N26
-DOMAIN,api.usercentrics.eu
+DOMAIN-SUFFIX,api.usercentrics.eu
 DOMAIN-SUFFIX,app.adjust.com
 DOMAIN-SUFFIX,auth0.com
 DOMAIN-SUFFIX,cdn.number26.de
@@ -15,3 +15,4 @@ DOMAIN-SUFFIX,pushwoosh.com
 DOMAIN-SUFFIX,segment.io
 DOMAIN-SUFFIX,static.n26.io
 DOMAIN-SUFFIX,tech26.de
+DOMAIN-SUFFIX,braze.eu
