@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snell 节点批量转换器</title>
+    <style>
+        body { font-family: -apple-system, sans-serif; background-color: #f4f7f9; padding: 20px; color: #333; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        h2 { color: #007aff; margin-top: 0; }
+        p { font-size: 14px; color: #666; }
+        textarea { width: 100%; height: 150px; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-family: monospace; box-sizing: border-box; resize: vertical; margin-bottom: 15px; }
+        button { background-color: #007aff; color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-size: 16px; transition: background 0.2s; }
+        button:hover { background-color: #0056b3; }
+        .copy-btn { background-color: #34c759; margin-left: 10px; }
+        .copy-btn:hover { background-color: #28a745; }
+        #outputContainer { margin-top: 25px; display: none; }
+        .result-area { background: #f8f9fa; border: 1px solid #eee; padding: 15px; border-radius: 8px; white-space: pre-wrap; word-break: break-all; font-family: monospace; font-size: 13px; max-height: 300px; overflow-y: auto; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>🚀 Snell 转 Trojan 转换器</h2>
+    <p>说明：将 Surge 格式的 Snell 配置转换为面板识别的 Trojan 链接。配合 8001 拦截器使用，实现自动识别与转换。</p>
+    
+    <label>在此粘贴 Surge 格式的 Snell 节点：</label>
+    <textarea id="inputArea" placeholder="示例：&#10;香港 01 = snell, 1.2.3.4, 10001, psk=your_pass, version=4&#10;日本 02 = snell, 5.6.7.8, 10002, psk=your_pass, version=4"></textarea>
+    
+    <button onclick="convert()">立即转换</button>
+    <button id="copyBtn" class="copy-btn" onclick="copyAll()" style="display: none;">一键复制全部</button>
+
+    <div id="outputContainer">
+        <label>转换结果（Trojan 链接）：</label>
+        <div id="resultArea" class="result-area"></div>
+    </div>
+</div>
+
+<script>
+    function convert() {
+        const input = document.getElementById('inputArea').value;
+        const resultArea = document.getElementById('resultArea');
+        const outputContainer = document.getElementById('outputContainer');
+        const copyBtn = document.getElementById('copyBtn');
+        
+        const lines = input.split('\n');
+        let results = [];
+
+        lines.forEach(line => {
+            line = line.trim();
+            if (!line || line.startsWith('#') || !line.includes('=')) return;
+
+            try {
+                // 1. 分离名字和参数
+                const [namePart, paramsPart] = line.split('=');
+                const name = namePart.trim();
+                
+                // 2. 提取 IP 和 端口 (snell, server, port)
+                const params = paramsPart.split(',').map(p => p.trim());
+                const server = params[1];
+                const port = params[2];
+
+                // 3. 正则匹配 psk
+                const pskMatch = paramsPart.match(/psk\s*=\s*([^,]+)/);
+                if (pskMatch && server && port) {
+                    const psk = pskMatch[1].trim();
+                    // 4. 生成带 (Snell) 标记的 Trojan 链接
+                    results.append(`trojan://${psk}@${server}:${port}#${name}(Snell)`);
+                }
+            } catch (e) {
+                console.error("解析失败行:", line);
+            }
+        });
+
+        if (results.length > 0) {
+            resultArea.innerText = results.join('\n');
+            outputContainer.style.display = 'block';
+            copyBtn.style.display = 'inline-block';
+        } else {
+            alert('未能识别有效的 Snell 配置，请检查格式！');
+        }
+    }
+
+    function copyAll() {
+        const text = document.getElementById('resultArea').innerText;
+        navigator.clipboard.writeText(text).then(() => {
+            const btn = document.getElementById('copyBtn');
+            const originalText = btn.innerText;
+            btn.innerText = '✅ 已复制';
+            setTimeout(() => btn.innerText = originalText, 2000);
+        });
+    }
+</script>
+
+</body>
+</html>
