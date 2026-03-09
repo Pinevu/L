@@ -1,4 +1,5 @@
 # NAME: Emby
 DOMAIN-SUFFIX,uhdnow.com
 DOMAIN-SUFFIX,m.nooh.cc
+DOMAIN-SUFFIX,fn.nooh.cc
 IP-CIDR,107.175.85.146/32
